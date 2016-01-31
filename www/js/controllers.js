@@ -3,8 +3,28 @@ angular.module('app.controllers', ['app.services'])
   $log.info('AppCtrl Created');
   $scope.settings = Settings;
 }])
-.controller('WeatherCtrl', ['$scope', '$log', '$ionicLoading', 'Weather', 'Settings', function ($scope, $log, $ionicLoading, Weather, Settings) {
+.controller('WeatherCtrl', ['$scope', '$log', '$ionicPlatform', '$ionicLoading', '$cordovaGeolocation', 'Location', 'Weather', 'Settings', function ($scope, $log, $ionicPlatform, $ionicLoading, $cordovaGeolocation, Location, Weather, Settings) {
   $log.info('WeatherCtrl Created');
+
+  // equivalent to document.ready
+  $ionicPlatform.ready(function() {
+    if (Location.lat == 0) {
+      var posOptions = {
+        timeout: 10000,
+        enableHighAccuracy: false
+      };
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (position) {
+          Location.lat = position.coords.latitude;
+          Location.long = position.coords.longitude;
+          getWeather();
+        }, function (err) {
+          // error
+        });
+    }
+  })
+
   $scope.haveData = false;
   $ionicLoading.show ({
     template: 'Loading...'
@@ -15,7 +35,7 @@ angular.module('app.controllers', ['app.services'])
     $ionicLoading.show ({
       template: 'Loading...'
     });
-    Weather.getWeatherAtLocation(37.2732249, -121.88772).then(function (response) {
+    Weather.getWeatherAtLocation(Location.lat, Location.long).then(function (response) {
       $log.info(response);
       $scope.current = response.data.currently;
       $scope.highTemp = Math.ceil(response.data.daily.data[0].temperatureMax);
