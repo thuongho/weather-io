@@ -4,6 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('app', ['ionic', 'app.controllers'])
+// ************* change key later ***********************
+.constant('FORECASTIO_KEY', 'dda0b44304a153144bc76e31150e528d')
 // config defines routes, views and corresponding controllers
 // ionic uses UIrouter as solution to manage app views instead of ngRouter
 // for more info: github.com/angularui/ui-router
