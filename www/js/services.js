@@ -12,7 +12,7 @@ angular.module('app.services', [])
   };
   return Location
 }])
-.factory('Weather', ['$http', '$log', 'Settings', 'FORECASTIO_KEY', function($http, $log, Settings, FORECASTIO_KEY) {
+.factory('Weather', ['$http', '$log', 'Settings', 'FORECASTIO_KEY', function ($http, $log, Settings, FORECASTIO_KEY) {
   $log.info('Weather Factory');
   var url = 'https://api.forecast.io/forecast/' + FORECASTIO_KEY + '/';
 

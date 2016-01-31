@@ -1,5 +1,10 @@
 <ion-view id="weatherContainer">
   <ion-content>
+    <!-- when pulled down on this page, it shows Pull to refresh -->
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
     <div id="current-weather" ng-show="haveData">
       <h1 class="current-temp">{{currentTemp}}&deg;</h1>
       <h1>{{current.summary}}</h1>
