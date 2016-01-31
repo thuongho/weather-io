@@ -1,24 +1,41 @@
 angular.module('app.controllers', ['app.services'])
-.controller('AppCtrl', ['$scope', '$log', 'Settings', function($scope, $log, Settings) {
+.controller('AppCtrl', ['$scope', '$log', 'Settings', function ($scope, $log, Settings) {
   $log.info('AppCtrl Created');
   $scope.settings = Settings;
 }])
-.controller('WeatherCtrl', ['$scope', '$log', '$ionicLoading', 'Weather', 'Settings', function($scope, $log, $ionicLoading, Weather, Settings) {
+.controller('WeatherCtrl', ['$scope', '$log', '$ionicLoading', 'Weather', 'Settings', function ($scope, $log, $ionicLoading, Weather, Settings) {
   $log.info('WeatherCtrl Created');
   $scope.haveData = false;
   $ionicLoading.show ({
     template: 'Loading...'
-  })
-  Weather.getWeatherAtLocation(37.2732249, -121.88772).then(function(response) {
-    $log.info(response);
-    $scope.current = response.data.currently;
-    $scope.highTemp = Math.ceil(response.data.daily.data[0].temperatureMax);
-    $scope.lowTemp = Math.floor(response.data.daily.data[0].temperatureMin);
-    $scope.currentTemp = Math.ceil($scope.current.temperature);
-    $scope.haveData = true;
-    $ionicLoading.hide();
-  }, function(error) {
-    alert('Unable to get current conditions');
-    $log.error(error);
+  });
+
+  function getWeather() {
+    $scope.haveData = false;
+    $ionicLoading.show ({
+      template: 'Loading...'
+    });
+    Weather.getWeatherAtLocation(37.2732249, -121.88772).then(function (response) {
+      $log.info(response);
+      $scope.current = response.data.currently;
+      $scope.highTemp = Math.ceil(response.data.daily.data[0].temperatureMax);
+      $scope.lowTemp = Math.floor(response.data.daily.data[0].temperatureMin);
+      $scope.currentTemp = Math.ceil($scope.current.temperature);
+      $scope.haveData = true;
+      $ionicLoading.hide();8
+    }, function(error) {
+      alert('Unable to get current conditions');
+      $log.error(error);
+    });
+  }
+
+  getWeather();
+
+  $scope.$watch(function() {
+    return Settings.units
+  }, function (newVal, oldVal) {
+    if (newVal !== oldVal) {
+      getWeather();
+    }
   });
 }]);
