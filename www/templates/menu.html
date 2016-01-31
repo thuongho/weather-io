@@ -1,0 +1,37 @@
+<ion-side-menus>
+  <!-- container for main user interface -->
+  <ion-side-menu-content>
+    <!-- header bar -->
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-buttons side="left">
+        <!-- button clear - removing framing and giving clear button -->
+        <!-- menu-toggle showing/hiding to the left -->
+        <button class="button button-clear ion-navicon" menu-toggle="left"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <!-- main screen base container -->
+    <ion-nav-view name="menuContent">
+    </ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-stable">
+      <!-- apps settings: display in F or C -->
+      <h1 class="title">Settings</h1>
+    </ion-header-bar>
+
+    <ion-content>
+      <ion-item class="item-divider">Units</ion-item>
+      <!-- radio buttons to set F or C -->
+      <!-- ng-value "'us'" to tell that this is a string -->
+      <!-- menu close will auto close the side -->
+      <ion-radio ng-model="settings.units" ng-value="'us'" menu-close="true">Fahrenheit</ion-radio>
+      <ion-radio ng-model="settings.units" ng-value="'si'" menu-close="true">Celsius</ion-radio>
+
+      <!-- credit line to Forecast.io for using their data -->
+      <!-- padding adds 10px around any element -->
+      <p class="padding">Weather data powered by <a href="https://developer.forecast.io/docs/v2">Forecast.io</a>.</p>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

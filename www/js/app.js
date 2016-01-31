@@ -3,8 +3,31 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
-
+angular.module('app', ['ionic', 'app.controllers'])
+// config defines routes, views and corresponding controllers
+// ionic uses UIrouter as solution to manage app views instead of ngRouter
+// for more info: github.com/angularui/ui-router
+// stateProvider will define 2 states, one for side menu and one for weather display
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state('app', {
+      url: '/app',
+      abstract: true,  // used across entire system
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl'
+    })
+    .state('app.weather', {
+      url: '/weather',
+      views: {
+        'menuContent': {  // name in menu.html
+          templateUrl: 'templates/weather.html',
+          controller: 'WeatherCtrl'
+        }
+      }
+    });
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/weather');
+})
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
